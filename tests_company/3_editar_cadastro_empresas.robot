@@ -5,6 +5,9 @@ Resource    ../resources/company_keywords/editar_cadastro_empresas.robot
 Auth
     Login de usuário
 
+Criar nova company
+    Criar nova company
+
 CN1: Cadastro de empresa editado com sucesso (Validação positiva) 
     CT3.1.1 - Todos os Campos de Forma Válida
 

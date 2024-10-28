@@ -6,6 +6,9 @@ Resource    ../resources/company_keywords/editar_endereço_empresas.robot
 Login de usuário
     Login de usuário
 
+Criar nova company
+    Criar nova company
+
 CN1: Edição de dados de endereço da empresa com sucesso (Validação positiva)
     CT4.1.1 - Todos os Campos de Forma Válida
 
