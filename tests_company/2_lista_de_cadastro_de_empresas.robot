@@ -2,10 +2,9 @@
 Resource    ../resources/company_keywords/listar_empresas.robot
 
 *** Test Cases ***
-Auth
-    Login de usuário
 
 CN1: Visualização e Performance da Lista de Empresas
+    [Tags]    robot:recursive-continue-on-failure
     Lista cadastro de empresas
     Desempenho e performance
 

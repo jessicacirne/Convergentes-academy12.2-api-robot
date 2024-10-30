@@ -1,7 +1,6 @@
 import  random
-import  string
 from robot.api.deco import keyword
-from datetime import datetime
+import re
 
 @keyword
 def generate_corporateName():
@@ -16,17 +15,24 @@ def generate_corporateName():
     corporate_name = f"{prefixo} {nome} {sufixo}"
     return corporate_name
 
+import random
+from robot.api.deco import keyword
+
 @keyword
 def generate_registerCompany():
-    def calculate_digit(cnpj_base):
-        weights = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-        total = sum(int(cnpj_base[i]) * weights[i + 1] for i in range(12))
+    def calculate_digit(cnpj_base, weights):
+        total = sum(int(cnpj_base[i]) * weights[i] for i in range(len(weights)))
         remainder = total % 11
         return '0' if remainder < 2 else str(11 - remainder)
 
     base = ''.join([str(random.randint(0, 9)) for _ in range(12)])
-    first_digit = calculate_digit(base)
-    second_digit = calculate_digit(base + first_digit)
+    
+    weights_first_digit = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    weights_second_digit = [6] + weights_first_digit
+
+    first_digit = calculate_digit(base, weights_first_digit)
+    second_digit = calculate_digit(base + first_digit, weights_second_digit)
+
     registerCompany = base + first_digit + second_digit
     return registerCompany
 
@@ -68,4 +74,28 @@ def sort_companies(companies):
 @keyword 
 def sort_companies_by_date(companies_list):
     return sorted(companies_list, key=lambda company: company['audit'][0]['registrationDate'])
-    
+
+@keyword
+def validate_cnpj(cnpj: str) -> bool:
+    cnpj = ''.join(filter(str.isdigit, cnpj))
+    if len(cnpj) != 14:
+        return False
+
+    def calculate_digit(cnpj, multipliers):
+        total = sum(int(cnpj[i]) * multipliers[i] for i in range(len(multipliers)))
+        rest = total % 11
+        return 0 if rest < 2 else 11 - rest
+
+    multipliers1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    multipliers2 = [6] + multipliers1
+
+    if calculate_digit(cnpj[:-2], multipliers1) == int(cnpj[-2]) and \
+       calculate_digit(cnpj[:-1], multipliers2) == int(cnpj[-1]):
+        return True
+    return False
+
+@keyword
+def is_brazilian_telephone_format(telephone):
+
+    pattern = r"^(?:55)?\d{10,11}$"
+    return bool(re.match(pattern, telephone))

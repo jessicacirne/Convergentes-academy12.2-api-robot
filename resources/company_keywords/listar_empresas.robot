@@ -1,6 +1,7 @@
 *** Settings ***
 Documentation       Keywords para o PATH /Company
 Resource            ../resource.robot
+Resource            ../funcoes_gerais.robot
 Library             ../generator.py
 Library             OperatingSystem
 Library             RequestsLibrary
@@ -9,20 +10,10 @@ Library             Collections
 Library             String
 
 *** Keywords ***
-Criar Sessao
-    ${headers}=    Create Dictionary   accept=application/json   Content-Type=application/json
-    Create Session    alias=develop   url=${baseUrl}    headers=${headers}    verify=true
-
-Login de usuário
-    ${body}=   Create Dictionary
-    ...     mail=sysadmin@qacoders.com
-    ...     password=1234@Test
-    Criar Sessao
-    ${resposta}=   POST On Session   alias=develop   url=/login    json=${body}
-    Status Should Be    200   ${resposta}
-    RETURN    ${resposta.json()["token"]}
 
 Lista cadastro de empresas
+    Login de usuário
+
     ${token}=    Login de usuário
     ${body}=     Create Dictionary
     ${resposta}=  GET On Session   alias=develop   url=/company/?token=${token}    json=${body}    expected_status=200

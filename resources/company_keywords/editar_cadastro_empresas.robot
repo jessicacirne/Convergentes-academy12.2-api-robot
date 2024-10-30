@@ -1,64 +1,19 @@
 *** Settings ***
 Documentation       Keywords para o PATH /Company
 Resource            ../resource.robot
+Resource            ../funcoes_gerais.robot
 Library             ../generator.py
 Library             OperatingSystem
 Library             RequestsLibrary
-Library             DateTime
 Library             Collections
 Library             String
 
 *** Keywords ***
-Criar Sessao
-    ${headers}=    Create Dictionary   accept=application/json   Content-Type=application/json
-    Create Session    alias=develop   url=${baseUrl}    headers=${headers}    verify=true
-
-Login de usuário
-    ${body}=   Create Dictionary
-    ...     mail=sysadmin@qacoders.com
-    ...     password=1234@Test
-    Criar Sessao
-    ${resposta}=   POST On Session   alias=develop   url=/login    json=${body}
-    Status Should Be    200   ${resposta}
-    RETURN    ${resposta.json()["token"]}   
-
-Criar nova company 
-    #Cria novo cadastro de empresa, para fins de teste
-
-    ${token}              Login de usuário
-    ${corporateName}      Generate corporateName
-    ${matriz}             Generate matriz
-    ${registerCompany}    Generate registerCompany
-    ${address}=           Create List
-    ${endereco}=          Create Dictionary
-    ...     zipCode=04777001
-    ...     city=São Paulo
-    ...     state=SP
-    ...     district=Sé
-    ...     street=Avenida Interlagos
-    ...     number=50
-    ...     complement=de 4503 ao fim - lado ímpar
-    ...     country=Brasil
-
-    Append To List        ${address}    ${endereco}
-
-    ${dados_empresa}      Create Dictionary
-    ...     corporateName=${corporateName}
-    ...     registerCompany=${registerCompany}
-    ...     mail=test@test.com
-    ...     matriz=${matriz}
-    ...     responsibleContact=Antonio Silveira
-    ...     telephone=5571988564178
-    ...     serviceDescription=Servico de informatica
-
-    Set To Dictionary    ${dados_empresa}    address=${address}
-
-    ${resposta}=  POST On Session    alias=develop    url=company/?token=${token}    json=${dados_empresa}    expected_status=201
-    ${id_empresa}    Set Variable    ${resposta.json()['newCompany']['_id']}
-    Log    ID da empresa criada: ${id_empresa}
-    Set Environment Variable    COMPANY_ID    ${id_empresa}
 
 CT3.1.1 - Todos os Campos de Forma Válida
+
+    funcoes_gerais.Cria nova empresa teste
+    
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
     ${token}              Login de usuário
     ${corporateName}      Generate corporateName
@@ -75,8 +30,7 @@ CT3.1.1 - Todos os Campos de Forma Válida
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=200
-    Log             Corpo da resposta: ${resposta.json()}
-
+    
 CT3.2.1 - Todos os Campos Vazios
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
     ${token}    Login de usuário
@@ -91,7 +45,6 @@ CT3.2.1 - Todos os Campos Vazios
     ...   serviceDescription=
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.3.1 - 'Nome da Empresa' Utilizando Nome Já Cadastrado  
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -109,7 +62,6 @@ CT3.3.1 - 'Nome da Empresa' Utilizando Nome Já Cadastrado
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.3.2 - 'CNPJ' Utilizando CNPJ Já Cadastrado
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -127,7 +79,6 @@ CT3.3.2 - 'CNPJ' Utilizando CNPJ Já Cadastrado
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.3.3 - 'Razão Social' Utilizando Razão Social Já Cadastrada
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -182,7 +133,6 @@ CT3.4.2 - 'Contato responsável' Utilizando Mais de 100 Caracteres
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.5.1 - 'CNPJ' com mais de 14 números
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -200,7 +150,6 @@ CT3.5.1 - 'CNPJ' com mais de 14 números
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.5.2 - 'CNPJ' com menos de 14 números
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -218,7 +167,6 @@ CT3.5.2 - 'CNPJ' com menos de 14 números
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.5.3 - 'Telefone' menos de 13 números
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -237,7 +185,6 @@ CT3.5.3 - 'Telefone' menos de 13 números
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.5.4 - 'Telefone' mais de 14 números
     ${id_empresa}=      Get Environment Variable    COMPANY_ID 
@@ -256,7 +203,6 @@ CT3.5.4 - 'Telefone' mais de 14 números
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.1 - 'Nome da Empresa' incluindo caracteres especiais
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -274,7 +220,6 @@ CT3.6.1 - 'Nome da Empresa' incluindo caracteres especiais
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.2 - 'CNPJ' incluindo letras
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -292,7 +237,6 @@ CT3.6.2 - 'CNPJ' incluindo letras
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.3 - 'CNPJ' incluindo caracteres especiais
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -310,7 +254,6 @@ CT3.6.3 - 'CNPJ' incluindo caracteres especiais
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.4 - 'Razão Social' incluindo caracteres especiais
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -328,8 +271,7 @@ CT3.6.4 - 'Razão Social' incluindo caracteres especiais
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
-
+ 
 CT3.6.5 - 'Contato Responsável' incluindo caracteres especiais
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
     ${token}              Login de usuário
@@ -347,7 +289,6 @@ CT3.6.5 - 'Contato Responsável' incluindo caracteres especiais
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.6 - 'Contato Responsável' incluindo números
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -366,7 +307,6 @@ CT3.6.6 - 'Contato Responsável' incluindo números
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.7 - 'Contato Responsável' com uma palavra
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -385,7 +325,6 @@ CT3.6.7 - 'Contato Responsável' com uma palavra
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.8 - 'Telefone' sem DDD do Brasil
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -404,7 +343,6 @@ CT3.6.8 - 'Telefone' sem DDD do Brasil
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.9 - 'Telefone' incluindo letras
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -423,8 +361,7 @@ CT3.6.9 - 'Telefone' incluindo letras
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
-
+ 
 CT3.6.10 - 'Telefone' incluindo caracteres especiais
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
     ${token}              Login de usuário
@@ -442,7 +379,6 @@ CT3.6.10 - 'Telefone' incluindo caracteres especiais
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
 CT3.6.11 - 'E-mail' fora do formato
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
@@ -461,9 +397,10 @@ CT3.6.11 - 'E-mail' fora do formato
     ...   serviceDescription=Servico de informatica
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}
 
-CT3.6.12 - 'Descrição' incluindo caracteres especiais
+    Excluir ID da empresa teste
+
+CT3.6.12 - 'Descrição' incluindo caracteres especiais    
     ${id_empresa}=      Get Environment Variable    COMPANY_ID
     ${token}              Login de usuário
     ${corporateName}      Generate corporateName
@@ -480,4 +417,5 @@ CT3.6.12 - 'Descrição' incluindo caracteres especiais
     ...   serviceDescription=TëçhnøVïziøn
 
     ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=400
-    Log             Corpo da resposta: ${resposta.json()}       
+
+
