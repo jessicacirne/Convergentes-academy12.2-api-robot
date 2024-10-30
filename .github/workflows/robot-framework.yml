@@ -1,59 +1,33 @@
-name: Robot Framework API Tests   
+name: Robot Framework Tests
 
 on: push
 
-jobs:
-  tests_company:
-    name: Run Testes
+jobs: 
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
 
-    permissions: 
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: https://jessicacirne.github.io/Teste-de-API-com-Robot/report.html
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+    - name: Clonar repositório
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+    - name: Configurar python
+      uses:  actions/setup-python@v2
+      with: 
+        python-version: '3.x'
 
-      - name: Install dependencies
-        run: |
-          pip install robotframework
-          pip install robotframework-requests
+    - name: Instalação das dependencias
+      run: 
+        pip install robotframework
+        pip install robotframework-requests
 
-      - name: Run Robot Framework tests
-        run: |
-          mkdir -p results
-          robot -d results tests_company
+    - name: Rodas os testes do Robot Framework
+      run:
+        robot -d results tests_company
 
-      - name: Archive Robot Framework results
-        if: always()  # Garante que a etapa sempre será executada
-        uses: actions/upload-artifact@v3
-        with:
-          name: robot-results
-          path: ./results
-    
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
-
-      - name: List files in results directory  # Depuração
-        run: ls -al results/
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with: 
-          path: results/
-          name: github-pages  # Nome do artefato
-
-      - name: Deploy to Github Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
-        if: always()  # Garante que o deploy sempre será executado
+    - name: Salvar resultado dos testes
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: robot-results
+        path: ./results
