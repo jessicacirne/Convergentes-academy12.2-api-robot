@@ -44,10 +44,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
+      - name: List files in results directory  # Depuração
+        run: ls -al results/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with: 
           path: results/
+          name: github-pages  # Nome do artefato
 
       - name: Deploy to Github Pages
         id: deployment
