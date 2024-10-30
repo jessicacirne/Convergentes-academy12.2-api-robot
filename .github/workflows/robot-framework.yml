@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout  Repository
+    - name: Checkout Repository
       uses: actions/checkout@v2
 
     - name: Set up Python
@@ -17,17 +17,18 @@ jobs:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: 
+      run: |
         pip install robotframework
         pip install robotframework-requests
-    
+
     - name: Run Robot Framework tests
-      run:
+      run: |
         robot -d results tests_company
         
     - name: Archive Robot Framework results
-      if: ${{ always() }}       
-      uses: actions/uploud-artifact@v3
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v3
       with:
         name: robot-results
-        path: ./results 
+        path: ./results
+ 
