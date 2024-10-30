@@ -1,4 +1,4 @@
-name: Robot Framework API Tests
+name: Robot Framework API Tests 
 
 on: push
 
@@ -9,11 +9,11 @@ jobs:
 
     permissions: 
       contents: read
-      pages:  write
+      pages: write
       id-token: write
     environment:
       name: github-pages
-      url:  https://jessicacirne.github.io/Testes_de_API_com_Robot_Framework/report.html
+      url: https://jessicacirne.github.io/Testes_de_API_com_Robot_Framework/report.html
 
     steps:
     - name: Checkout Repository
@@ -31,6 +31,7 @@ jobs:
 
     - name: Run Robot Framework tests
       run: |
+        mkdir -p results
         robot -d results tests_company
         
     - name: Archive Robot Framework results
@@ -52,4 +53,3 @@ jobs:
       id: deployment
       uses: actions/deploy-pages@v1
 
-        
