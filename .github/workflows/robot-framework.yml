@@ -13,7 +13,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://jessicacirne.github.io/Testes_de_API_com_Robot_Framework/report.html
+      url: https://jessicacirne.github.io/Teste-de-API-com-Robot/report.html
 
     steps:
     - name: Checkout Repository
@@ -52,4 +52,3 @@ jobs:
     - name: Deploy to Github Pages
       id: deployment
       uses: actions/deploy-pages@v1
-
