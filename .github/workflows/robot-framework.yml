@@ -1,4 +1,4 @@
-name: Robot Framework Tests
+name: Robot Framework Tests 
 
 on: push
 
@@ -11,19 +11,18 @@ jobs:
     - name: Clonar repositório
       uses: actions/checkout@v2
 
-    - name: Configurar python
-      uses:  actions/setup-python@v2
+    - name: Configurar Python
+      uses: actions/setup-python@v2
       with: 
         python-version: '3.x'
 
-    - name: Instalação das dependencias
-      run: 
+    - name: Instalar dependências
+      run: |
         pip install robotframework
         pip install robotframework-requests
 
-    - name: Rodas os testes do Robot Framework
-      run:
-        robot -d results tests_company
+    - name: Rodar os testes do Robot Framework
+      run: robot -d results tests_company
 
     - name: Salvar resultado dos testes
       if: ${{ always() }}
