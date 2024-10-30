@@ -1,4 +1,4 @@
-name: Robot Framework API Tests  
+name: Robot Framework API Tests   
 
 on: push
 
@@ -16,39 +16,40 @@ jobs:
       url: https://jessicacirne.github.io/Teste-de-API-com-Robot/report.html
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        pip install robotframework
-        pip install robotframework-requests
+      - name: Install dependencies
+        run: |
+          pip install robotframework
+          pip install robotframework-requests
 
-    - name: Run Robot Framework tests
-      run: |
-        mkdir -p results
-        robot -d results tests_company
-        
-    - name: Archive Robot Framework results
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: robot-results
-        path: ./results
+      - name: Run Robot Framework tests
+        run: |
+          mkdir -p results
+          robot -d results tests_company
+
+      - name: Archive Robot Framework results
+        if: always()  # Garante que a etapa sempre será executada
+        uses: actions/upload-artifact@v3
+        with:
+          name: robot-results
+          path: ./results
     
-    - name: Setup Pages
-      uses: actions/configure-pages@v2
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with: 
-        path: results/
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with: 
+          path: results/
 
-    - name: Deploy to Github Pages
-      id: deployment
-      uses: actions/deploy-pages@v1
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+        if: always()  # Garante que o deploy sempre será executado
