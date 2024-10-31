@@ -39,14 +39,14 @@ jobs:
           name: robot-results
           path: ./results
         
-      - name: Definir páginas
-        uses: actions/configure@v2
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
 
-      - name: Upload artefatos
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with: 
           path: results/
 
-      - name: Deploy para Github Pages 
+      - name: Deploy to Github Pages 
         id: deployment
         uses: actions/deploy-pages@v1
