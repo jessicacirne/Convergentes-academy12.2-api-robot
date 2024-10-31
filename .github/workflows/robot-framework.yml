@@ -39,6 +39,9 @@ jobs:
           name: robot-results
           path: ./results
         
+      - name: Definir páginas
+        uses: actions/configure@v2
+
       - name: Upload artefatos
         uses: actions/upload-pages-artifact@v1
         with: 
