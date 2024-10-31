@@ -29,8 +29,12 @@ jobs:
           pip install robotframework
           pip install robotframework-requests
 
+      - name: Executar o script generator.py
+        run: |
+          python resources/generator.py  # Execute o seu script acessório
+
       - name: Rodar os testes do Robot Framework
-        run: robot -d results tests_company
+        run: robot -d results tests_company  # Se você ainda tiver testes para executar
 
       - name: Salvar resultado dos testes
         if: ${{ always() }}
