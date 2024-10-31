@@ -6,6 +6,14 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
+  
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: https://jessicacirne.github.io/Teste-de-API-com-Robot/report.html
 
     steps:
     - name: Clonar repositório
@@ -20,6 +28,7 @@ jobs:
       run: |
         pip install robotframework
         pip install robotframework-requests
+        pip install robotframework-collections
 
     - name: Rodar os testes do Robot Framework
       run: robot -d results tests_company
@@ -30,3 +39,15 @@ jobs:
       with:
         name: robot-results
         path: ./results
+        
+    - name: Definir paginas
+      uses: actions/configure@v2
+
+    - name: Upload artefatos
+      uses: actions/upload-pages-artifact@v1
+      with: 
+        path: results/
+
+    - name: Deploy para Github Pages 
+      id: deployment
+      uses: actions/deploy-pages@v1
