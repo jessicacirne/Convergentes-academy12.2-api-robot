@@ -1,4 +1,4 @@
-name: Robot Framework Tests 
+name: Robot Framework Tests
 
 on: push
 
@@ -16,38 +16,34 @@ jobs:
       url: https://jessicacirne.github.io/Teste-de-API-com-Robot/report.html
 
     steps:
-    - name: Clonar repositório
-      uses: actions/checkout@v2
+      - name: Clonar repositório
+        uses: actions/checkout@v2
 
-    - name: Configurar Python
-      uses: actions/setup-python@v2
-      with: 
-        python-version: '3.x'
+      - name: Configurar Python
+        uses: actions/setup-python@v2
+        with: 
+          python-version: '3.x'
 
-    - name: Instalar dependências
-      run: |
-        pip install robotframework
-        pip install robotframework-requests
-        pip install robotframework-collections
+      - name: Instalar dependências
+        run: |
+          pip install robotframework
+          pip install robotframework-requests
 
-    - name: Rodar os testes do Robot Framework
-      run: robot -d results tests_company
+      - name: Rodar os testes do Robot Framework
+        run: robot -d results tests_company
 
-    - name: Salvar resultado dos testes
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: robot-results
-        path: ./results
+      - name: Salvar resultado dos testes
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: robot-results
+          path: ./results
         
-    - name: Definir paginas
-      uses: actions/configure@v2
+      - name: Upload artefatos
+        uses: actions/upload-pages-artifact@v1
+        with: 
+          path: results/
 
-    - name: Upload artefatos
-      uses: actions/upload-pages-artifact@v1
-      with: 
-        path: results/
-
-    - name: Deploy para Github Pages 
-      id: deployment
-      uses: actions/deploy-pages@v1
+      - name: Deploy para Github Pages 
+        id: deployment
+        uses: actions/deploy-pages@v1
