@@ -4,16 +4,16 @@ on: push
 
 jobs: 
   test:
-    name: Run Tests
+    name: API Tests
     runs-on: ubuntu-latest
-  
+
     permissions:
       contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
-      url: https://jessicacirne.github.io/Teste-de-API-com-Robot/report.html
+      url:  https://jessicacirne.github.io/convergentes-academy12.2-api-robot/report.html  
 
     steps:
       - name: Clonar repositório
@@ -31,28 +31,26 @@ jobs:
 
       - name: Executar o script generator.py
         run: |
-          python resources/generator.py  # Execute o seu script acessório
+          python resources/generator.py
 
       - name: Rodar os testes do Robot Framework
-        run: robot -d results tests_company  # Se você ainda tiver testes para executar
+        run: robot -d results tests_company  
 
       - name: Salvar resultado dos testes
         if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: robot-results
-          path: ./results
-        
+          path: ./results   
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
-      - name: Upload artifact
+      - name: Upload artifacts
         uses: actions/upload-pages-artifact@v1
-        with: 
+        with:
           path: results/
-
-      - name: Deploy to Github Pages 
+          
+      - name: Deploy to Github Pages
         id: deployment
-        uses: actions/deploy-pages@v1
-
-        
+        uses: actions/deploy-pages@v1    
