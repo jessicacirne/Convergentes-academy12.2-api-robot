@@ -1,16 +1,130 @@
 *** Settings ***
-Documentation       Keywords para o PATH /Company
+Documentation       Keywords gerais para o PATH /Company
 Resource            ../resource.robot
-Resource            ../funcoes_gerais.robot
 Library             ../generator.py
 Library             OperatingSystem
 Library             RequestsLibrary
-Library             DateTime
 Library             Collections
-Library             String
 
 *** Keywords ***
+Criar Sessao
+    ${headers}=    Create Dictionary   accept=application/json   Content-Type=application/json
+    Create Session    alias=develop   url=${baseUrl}    headers=${headers}    verify=true
+Login de usuário
+    [Documentation]     Passos iniciais e primeira autenticação como administrador
+    ${body}=   Create Dictionary
+    ...     mail=sysadmin@qacoders.com
+    ...     password=1234@Test
+    Criar Sessao
+    ${resposta}=   POST On Session   alias=develop   url=/login    json=${body}
+    Status Should Be    200   ${resposta}
+    RETURN    ${resposta.json()["token"]}   
 
+Cria nova empresa teste
+    [Documentation]    Cria novo cadastro de empresa, para fins de teste
+    
+    Login de usuário
+
+    [Arguments]    ${zipCode}    ${city}    ${state}    ${district}    ${street}    ${number}    ${complement}    ${country}    ${corporateName}    ${registerCompany}    ${mail}    ${matriz}    ${responsibleContact}    ${telephone}    ${serviceDescription}    ${expected_status}
+
+    ${token}=       Login de usuário
+    ${address}=     Create List
+    ${endereco}=    Create Dictionary
+    ...     zipCode=${zipCode}
+    ...     city=${city}
+    ...     state=${state}
+    ...     district=${district}
+    ...     street=${street}
+    ...     number=${number}
+    ...     complement=${complement}
+    ...     country=${country}
+
+    Append To List        ${address}    ${endereco}
+
+    ${dados_empresa}=      Create Dictionary
+    ...     corporateName=${corporateName}
+    ...     registerCompany=${registerCompany}
+    ...     mail=${mail}
+    ...     matriz=${matriz}
+    ...     responsibleContact=${responsibleContact}
+    ...     telephone=${telephone}
+    ...     serviceDescription=${serviceDescription}
+
+    Set To Dictionary    ${dados_empresa}    address=${address}
+
+    ${resposta}=  POST On Session    alias=develop    url=company/?token=${token}    json=${dados_empresa}    expected_status=${expected_status}
+    
+    # Armazenar o _id da empresa criada em uma variável de ambiente
+    ${id_empresa}=    Set Variable    ${resposta.json()['newCompany']['_id']} 
+    Set Environment Variable    COMPANY_ID    ${id_empresa}    
+
+Edição de cadastro de empresa
+    [Documentation]    Body para edição de cadastro de empresa.
+
+    [Arguments]    ${corporateName}    ${registerCompany}    ${mail}    ${matriz}    ${responsibleContact}    ${telephone}    ${serviceDescription}    ${expected_status}
+    ${id_empresa}=   Get Environment Variable    COMPANY_ID
+    ${token}=        Login de usuário
+    ${body}=         Create Dictionary
+    ...             corporateName=${corporateName}
+    ...             registerCompany=${registerCompany}
+    ...             mail=${mail}
+    ...             matriz=${matriz}
+    ...             responsibleContact=${responsibleContact}
+    ...             telephone=${telephone}
+    ...             serviceDescription=${serviceDescription}
+
+    ${resposta}=    PUT On Session    alias=develop   url=company/${id_empresa}?token=${token}   json=${body}    expected_status=${expected_status}
+    Log             Corpo da resposta: ${resposta.json()}
+
+Editar Endereço
+
+    [Arguments]    ${zipCode}    ${city}    ${state}    ${district}    ${street}    ${number}    ${complement}    ${country}    ${expected_status}
+    ${id_empresa}=   Get Environment Variable    COMPANY_ID
+    ${token}=        Login de usuário
+    ${address}=      Create List
+    ${endereco}=     Create Dictionary  
+
+    ...   zipCode=${zipCode}
+    ...   city=${city}
+    ...   state=${state}
+    ...   district=${district}
+    ...   street=${street}
+    ...   number=${number}
+    ...   complement=${complement}
+    ...   country=${country}
+
+    Append To List    ${address}    ${endereco}
+    ${body}=   Create Dictionary    address=${address}
+    ${resposta}=    PUT On Session    alias=develop   url=company/address/${id_empresa}?token=${token}   json=${body}    expected_status=${expected_status}
+    Log             Corpo da resposta: ${resposta.json()}
+
+Excluir ID da empresa teste
+    
+    [Documentation]     Apaga empresa criada do sistema, para não poluir a base de dados
+    ${id_empresa}=      Get Environment Variable    COMPANY_ID
+    ${token}=           Login de usuário
+    
+    ${resposta}=        DELETE On Session   alias=develop   url=company/${id_empresa}?token=${token}    expected_status=200
+
+Buscar Empresa Por ID
+    [Arguments]    ${id_empresa}    ${expected_status}
+    ${id_empresa}=    Get Environment Variable    COMPANY_ID
+    ${token}=         Login de usuário
+    ${body}=          Create Dictionary
+    ${resposta}=      GET On Session   alias=develop   url=company/${id_empresa}?token=${token}    json=${body}    expected_status=${expected_status}
+    Log               Status Code: ${resposta.status_code}
+
+Alterar status da empresa
+    [Arguments]    ${id_esperado}    ${ativo_ou_inativo}    ${expected_status}
+
+    ${token}=         Login de usuário
+    ${body}=          Create Dictionary    status=${ativo_ou_inativo}
+    ${resposta}=      PUT On Session   alias=develop   url=company/status/${id_esperado}?token=${token}    json=${body}    expected_status=${expected_status}
+
+    ${response_json}=    Convert To Dictionary    ${resposta.json()}
+    ${status}=           Get From Dictionary    ${response_json['updateCompany']}    status
+
+    
 Lista cadastro de empresas
     Login de usuário
 
@@ -173,3 +287,38 @@ Verificar ordenação da Lista de Empresas por data de cadastro
     Log     Lista ordenada: ${responseOrdenadoData}
 
     Lists Should Be Equal   ${resposta2.json()}     ${responseOrdenadoData}
+
+Cria nova empresa teste (Validação negativa)
+    [Documentation]    Cria novo cadastro de empresa, para fins de teste
+    
+    Login de usuário
+
+    [Arguments]    ${zipCode}    ${city}    ${state}    ${district}    ${street}    ${number}    ${complement}    ${country}    ${corporateName}    ${registerCompany}    ${mail}    ${matriz}    ${responsibleContact}    ${telephone}    ${serviceDescription}    ${expected_status}
+
+    ${token}=       Login de usuário
+    ${address}=     Create List
+    ${endereco}=    Create Dictionary
+    ...     zipCode=${zipCode}
+    ...     city=${city}
+    ...     state=${state}
+    ...     district=${district}
+    ...     street=${street}
+    ...     number=${number}
+    ...     complement=${complement}
+    ...     country=${country}
+
+    Append To List        ${address}    ${endereco}
+
+    ${dados_empresa}=      Create Dictionary
+    ...     corporateName=${corporateName} 
+    ...     registerCompany=${registerCompany}
+    ...     mail=${mail}
+    ...     matriz=${matriz}
+    ...     responsibleContact=${responsibleContact}
+    ...     telephone=${telephone}
+    ...     serviceDescription=${serviceDescription}
+
+    Set To Dictionary    ${dados_empresa}    address=${address}
+
+    ${resposta}=  POST On Session    alias=develop    url=company/?token=${token}    json=${dados_empresa}    expected_status=${expected_status}
+   

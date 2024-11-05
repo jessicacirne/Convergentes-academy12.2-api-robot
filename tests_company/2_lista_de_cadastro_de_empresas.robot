@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    ../resources/company_keywords/listar_empresas.robot
+Resource    ../resources/company_keywords/keywords.robot
 
 *** Test Cases ***
 

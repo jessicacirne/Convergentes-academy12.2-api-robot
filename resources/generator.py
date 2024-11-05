@@ -50,24 +50,6 @@ def generate_matriz():
     return razao_social
 
 @keyword
-def generate_email():
-    random_number = random.randint(10000, 99999)
-    return f"user{random_number}@example.com"
-
-@keyword
-def generate_cpf():
-    cpf = ''.join([str(random.randint(0, 9)) for _ in range(9)])
-    cpf += calculate_cpf_digit(cpf)
-    cpf += calculate_cpf_digit(cpf)
-    return cpf
-
-def calculate_cpf_digit(cpf):
-    weights = list(range(len(cpf) + 1, 1, -1))
-    total = sum(int(digit) * weight for digit, weight in zip(cpf, weights))
-    digit = (total * 10) % 11
-    return str(digit) if digit < 10 else '0'
-
-@keyword
 def sort_companies(companies):
     return sorted(companies, key=lambda x: x['corporateName']);
 
@@ -75,27 +57,3 @@ def sort_companies(companies):
 def sort_companies_by_date(companies_list):
     return sorted(companies_list, key=lambda company: company['audit'][0]['registrationDate'])
 
-@keyword
-def validate_cnpj(cnpj: str) -> bool:
-    cnpj = ''.join(filter(str.isdigit, cnpj))
-    if len(cnpj) != 14:
-        return False
-
-    def calculate_digit(cnpj, multipliers):
-        total = sum(int(cnpj[i]) * multipliers[i] for i in range(len(multipliers)))
-        rest = total % 11
-        return 0 if rest < 2 else 11 - rest
-
-    multipliers1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
-    multipliers2 = [6] + multipliers1
-
-    if calculate_digit(cnpj[:-2], multipliers1) == int(cnpj[-2]) and \
-       calculate_digit(cnpj[:-1], multipliers2) == int(cnpj[-1]):
-        return True
-    return False
-
-@keyword
-def is_brazilian_telephone_format(telephone):
-
-    pattern = r"^(?:55)?\d{10,11}$"
-    return bool(re.match(pattern, telephone))
