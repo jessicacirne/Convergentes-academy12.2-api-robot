@@ -13,7 +13,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url:  https://jessicacirne.github.io/Testes-de-api-com-Robot-convergentes-academy12.2-api-robot/report.html  
+      url:  https://jessicacirne.github.io/Convergentes-academy12.2-api-robot/report.html  
 
     steps:
       - name: Clonar repositório
