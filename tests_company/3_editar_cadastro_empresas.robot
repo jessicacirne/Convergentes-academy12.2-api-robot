@@ -33,7 +33,7 @@ CT3.3.3 - 'Razão Social' Utilizando Razão Social Já Cadastrada
     [Documentation]    CN03: Validação edição com restrição de campos duplicados.
     [Tags]    Negativo    Status deve ser 400
 
-    Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    5511912345678    Decrição da empresa    400
+    Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Organização Beta Ltda    Teste Test    5511912345678    Decrição da empresa    400
 
 CT3.4.1 - 'Nome da Empresa' Utilizando Mais de 100 Caracteres 
     [Documentation]    CN04: Validação edição com restrição de límite de caracteres.
@@ -71,74 +71,74 @@ CT3.5.4 - 'Telefone' mais de 14 números
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    551191234567855    Servico de informatica    400
 
+CT3.5.5 - 'E-mail' fora do formato
+    [Documentation]    CN05: Validação edição restrição com máscara.
+    [Tags]    Negativo    Status deve ser 400  
+
+    Edição de cadastro de empresa    Nome da empresa teste    12345678000195    testtest.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
+
 CT3.6.1 - 'Nome da Empresa' incluindo caracteres especiais
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400    
 
     Edição de cadastro de empresa    Silv&ir@ El.tro,i%cos    12345678000195    test@test.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
 
 CT3.6.2 - 'CNPJ' incluindo letras  
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12H45G7800F195    test@test.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
 
 CT3.6.3 - 'CNPJ' incluindo caracteres especiais   
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    1$345&7800%195    test@test.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
 
 CT3.6.4 - 'Razão Social' incluindo caracteres especiais   
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    S*lve!r$ inf#rm@tica Co    Teste Test    5511912345678    Servico de informatica    400
 
 CT3.6.5 - 'Contato Responsável' incluindo caracteres especiais 
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    @nt*n&o C&@#!    5511912345678    Servico de informatica    400
 
 CT3.6.6 - 'Contato Responsável' incluindo números
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    4nt0n10 C4rl9s    5511912345678    Servico de informatica    400
 
 CT3.6.7 - 'Contato Responsável' com uma palavra
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Antonio    5511912345678    Servico de informatica    400
 
 CT3.6.8 - 'Telefone' sem DDD do Brasil
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    5111912345678    Servico de informatica    400
 
 CT3.6.9 - 'Telefone' incluindo letras
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    557198b56a178    Servico de informatica    400
 
 CT3.6.10 - 'Telefone' incluindo caracteres especiais
-    [Documentation]    CN05: Validação edição com restrição de formato.
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
 
-    Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    627198&56*178    Servico de informatica    400
+    Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    557198&56*178    Servico de informatica    400
 
-CT3.6.11 - 'E-mail' fora do formato
-    [Documentation]    CN05: Validação edição com restrição de formato.
-    [Tags]    Negativo    Status deve ser 400  
-
-    Edição de cadastro de empresa    Nome da empresa teste    12345678000195    testtest.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
-
-CT3.6.12 - 'Descrição' incluindo caracteres especiais 
-    [Documentation]    CN05: Validação edição com restrição de formato.
+CT3.6.11 - 'Descrição' incluindo caracteres especiais 
+    [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
       
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    5511912345678    *&%@#    400
