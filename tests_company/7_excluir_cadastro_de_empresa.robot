@@ -12,6 +12,7 @@ Resource    ../resources/company_keywords/keywords.robot
     Excluir ID da empresa teste
     Buscar Empresa Por ID    ${id_empresa}    400 
     
+    
 CT7.2.1 - Excluir cadastro de empresa inexistente
     [Documentation]    CN02: Validar exclusão de cadastro de empresa não realizada.
     [Tags]    Negativo    Status deve ser 400

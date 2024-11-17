@@ -34,7 +34,7 @@ jobs:
           python resources/generator.py
 
       - name: Rodar os testes do Robot Framework
-        run: robot -d results tests_company  
+        run: robot -d results tests_company tests_user  
 
       - name: Salvar resultado dos testes
         if: ${{ always() }}

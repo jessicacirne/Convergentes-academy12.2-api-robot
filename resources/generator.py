@@ -15,9 +15,6 @@ def generate_corporateName():
     corporate_name = f"{prefixo} {nome} {sufixo}"
     return corporate_name
 
-import random
-from robot.api.deco import keyword
-
 @keyword
 def generate_registerCompany():
     def calculate_digit(cnpj_base, weights):
@@ -50,10 +47,48 @@ def generate_matriz():
     return razao_social
 
 @keyword
+def generate_fullName():
+    primeiros_nomes = ["Alexandre", "Bruna", "Carlos", "Daniela", "Eduardo", "Fernanda", "Gabriel", "Helena"]
+    sobrenomes = ["Silva", "Santos", "Oliveira", "Souza", "Lima", "Pereira", "Costa", "Ribeiro"]
+    sobrenomes_complementares = ["Almeida", "Melo", "Barbosa", "Correia", "Fernandes", "Rocha", "Gomes", "Martins"]
+
+    primeiro_nome = random.choice(primeiros_nomes)
+    sobrenome = random.choice(sobrenomes)
+    sobrenome_complementar = random.choice(sobrenomes_complementares)
+
+    nome_completo = f"{primeiro_nome} {sobrenome} {sobrenome_complementar}"
+    return nome_completo
+
+@keyword
+def generate_email():
+    nomes = ["alexandre", "bruna", "carlos", "daniela", "eduardo", "fernanda", "gabriel", "helena"]
+    dominios = ["gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "empresa.com"]
+    numeros = random.randint(1000, 9999) 
+
+    nome = random.choice(nomes)
+    dominio = random.choice(dominios)
+
+    email = f"{nome}{numeros}@{dominio}"
+    return email
+
+@keyword
+def generate_cpf():
+    base = [random.randint(0, 9) for _ in range(9)]
+
+    for peso in [10, 11]:
+        soma = sum(v * p for v, p in zip(base, range(peso, 1, -1)))
+        base.append(0 if soma % 11 < 2 else 11 - soma % 11)
+
+    return ''.join(map(str, base))
+
+@keyword
 def sort_companies(companies):
     return sorted(companies, key=lambda x: x['corporateName']);
 
 @keyword 
 def sort_companies_by_date(companies_list):
     return sorted(companies_list, key=lambda company: company['audit'][0]['registrationDate'])
+
+import random
+
 
