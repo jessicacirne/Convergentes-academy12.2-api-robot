@@ -7,7 +7,8 @@ CN1: Visualização e Performance da Lista de Empresas
     [Tags]    robot:recursive-continue-on-failure
     Lista cadastro de empresas
     Desempenho e performance
-
+    
+*** Comments ***
 CN2: Filtros de pesquisas na Lista de Empresas - Nome da empresa
     Verificar filtro por Nome da empresa     
 

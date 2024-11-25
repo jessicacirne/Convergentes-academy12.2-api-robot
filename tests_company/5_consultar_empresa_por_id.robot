@@ -21,6 +21,6 @@ CT5.2.1 - Buscar por um ID não existente no sistema
 
 CT5.2.2 - Buscar por um ID vazio ou nulo
     [Documentation]    CN02: Validar busca por ID inválido no sistema.
-    [Tags]    Negativo    Status deve ser 500
+    [Tags]    Negativo    Status deve ser 400
     
-    Buscar Empresa Por ID    " "    500
+    Buscar Empresa Por ID    " "    400

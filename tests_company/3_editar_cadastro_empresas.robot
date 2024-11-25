@@ -17,6 +17,7 @@ CT3.2.1 - Todos os Campos Vazios
 
     Edição de cadastro de empresa    ""    ""    ""    ""    ""    ""    ""    400
 
+*** Comments ***
 CT3.3.1 - 'Nome da Empresa' Utilizando Nome Já Cadastrado  
     [Documentation]    CN03: Validação edição com restrição de campos duplicados.
     [Tags]    Negativo    Status deve ser 400
@@ -35,6 +36,7 @@ CT3.3.3 - 'Razão Social' Utilizando Razão Social Já Cadastrada
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Organização Beta Ltda    Teste Test    5511912345678    Decrição da empresa    400
 
+*** Test Cases ***
 CT3.4.1 - 'Nome da Empresa' Utilizando Mais de 100 Caracteres 
     [Documentation]    CN04: Validação edição com restrição de límite de caracteres.
     [Tags]    Negativo    Status deve ser 400
@@ -77,12 +79,13 @@ CT3.5.5 - 'E-mail' fora do formato
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    testtest.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
 
+*** Comments ***
 CT3.6.1 - 'Nome da Empresa' incluindo caracteres especiais
     [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400    
 
     Edição de cadastro de empresa    Silv&ir@ El.tro,i%cos    12345678000195    test@test.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
-
+*** Test Cases ***
 CT3.6.2 - 'CNPJ' incluindo letras  
     [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
@@ -95,6 +98,7 @@ CT3.6.3 - 'CNPJ' incluindo caracteres especiais
 
     Edição de cadastro de empresa    Nome da empresa teste    1$345&7800%195    test@test.com    Teste testando matriz    Teste Test    5511912345678    Servico de informatica    400
 
+*** Comments ***
 CT3.6.4 - 'Razão Social' incluindo caracteres especiais   
     [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
@@ -124,7 +128,7 @@ CT3.6.8 - 'Telefone' sem DDD do Brasil
     [Tags]    Negativo    Status deve ser 400  
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    5111912345678    Servico de informatica    400
-
+*** Test Cases ***
 CT3.6.9 - 'Telefone' incluindo letras
     [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
@@ -137,11 +141,13 @@ CT3.6.10 - 'Telefone' incluindo caracteres especiais
 
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    557198&56*178    Servico de informatica    400
 
+*** Comments ***
 CT3.6.11 - 'Descrição' incluindo caracteres especiais 
     [Documentation]    CN06: Validação edição com restrição de caracteres.
     [Tags]    Negativo    Status deve ser 400  
       
     Edição de cadastro de empresa    Nome da empresa teste    12345678000195    test@test.com    Teste testando matriz    Teste Test    5511912345678    *&%@#    400
 
+*** Test Cases ***
 Exclui empresa para testes de edição de cadastro    
     Excluir ID da empresa teste

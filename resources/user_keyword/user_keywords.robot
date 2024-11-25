@@ -80,3 +80,4 @@ Buscar usuário Por ID
     ${body}=          Create Dictionary
     ${resposta}=      GET On Session   alias=develop   url=user/${id_usuario}?token=${token}    json=${body}    expected_status=${expected_status}
     Log               Status Code: ${resposta.status_code}    
+

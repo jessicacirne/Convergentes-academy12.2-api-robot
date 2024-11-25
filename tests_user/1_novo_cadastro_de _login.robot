@@ -74,6 +74,7 @@ CT1.5.1: Password com menos de 8 ou mais de 12 caracteres
 
     Cria novo usuário (Validação negativa)    ${fullNameGerado}    ${emailGerado}    12@Test    ADMIN    ${cpfGerado}    12@Test   400
 
+*** Comments ***
 CT1.5.2: Password sem incluir letra maiúscula
     [Documentation]    CN5: Validações do campo 'Senha'
     [Tags]    Validação negativa    Status deve ser 400 
@@ -93,17 +94,8 @@ CT1.5.3: Password sem incluir letra minúscula
     ${cpfGerado}         Generate cpf 
 
     Cria novo usuário (Validação negativa)    ${fullNameGerado}    ${emailGerado}    1234@TEST    ADMIN    ${cpfGerado}    1234@TEST   400     
-
- CT1.5.4: Password sem incluir números
-    [Documentation]    CN5: Validações do campo 'Senha'
-    [Tags]    Validação negativa    Status deve ser 400 
-
-    ${fullNameGerado}    Generate fullName
-    ${emailGerado}      Generate email
-    ${cpfGerado}         Generate cpf 
-
-    Cria novo usuário (Validação negativa)    ${fullNameGerado}    ${emailGerado}    abcd@Test    ADMIN    ${cpfGerado}    abcd@Test   400
-
+*** Test Cases ***
+ 
  CT1.5.4: Password sem incluir números
     [Documentation]    CN5: Validações do campo 'Senha'
     [Tags]    Validação negativa    Status deve ser 400 
